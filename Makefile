@@ -1,8 +1,8 @@
 MANDATORY = philo/philo.c philo/philo_utils.c \
-			philo/check.c 
-
+			philo/check_utils.c  philo/utils.c 
+ 
 OBG_MAN = $(MANDATORY:%.c=%.o)
-PROGRAM = philo
+PROGRAM = philo_
 
 CFLAG = -Wall -Wextra -Werror
 
