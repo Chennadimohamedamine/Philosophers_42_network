@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:19:27 by mochenna          #+#    #+#             */
-/*   Updated: 2024/05/15 23:31:58 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:22:54 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,9 @@ void check(int ac, char **av)
             ft_perror("OPS! you have  invalid argument [you have agument geart max or less min int ]\n");
         i++;
     }
+}
+void failure_thread(int i,char *s)
+{
+    printf("%d %s",i,s);
+    exit(1);
 }

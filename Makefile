@@ -4,7 +4,7 @@ MANDATORY = philo/philo.c philo/philo_utils.c \
 OBG_MAN = $(MANDATORY:%.c=%.o)
 PROGRAM = philo_
 
-CFLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror -pthread
 
 philo/%.o: philo/%.c philo/philosopher.h
 	cc $(CFLAG) -o $@ -c $<

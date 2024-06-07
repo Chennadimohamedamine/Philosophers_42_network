@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "philosopher.h": "c"
+        "philosopher.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "_types.h": "c",
+        "__threading_support": "c",
+        "mutex": "c"
     }
 }

@@ -6,28 +6,15 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/05/14 17:45:05 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/06/03 16:22:16 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void printstr(char *s)
-{
-    int i;
-
-    i = 0;
-    while (s[i])
-        write(1, &s[i++], 1);
-}
-
 void ft_perror(char *s)
 {
-    int i;
-
-    i = 0;
-    while (s[i])
-        write(1, &s[i++], 1);
+	printf("%s",s);
     exit(1);
 }
 long	to_int(char *str)
