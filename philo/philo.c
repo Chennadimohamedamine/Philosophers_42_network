@@ -6,36 +6,23 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/06/03 20:47:29 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:41:38 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void *function_philo(void *p)
+char  shadow_clone(t_philo *philo)
 {
-    t_pilo *philo;
-
-    philo = (t_pilo *)p;
-    usleep(philo->time_to_eat);
-    ft_print_(philo->Philosopher," philo take the fork\n");
-    usleep(philo->time_to_sleep);
-    ft_print_(philo->Philosopher," philo is sleep\n");
-    pthread_mutex_lock
-    return (NULL);
-}
-void execute_program(t_pilo *philo)
-{
-    pthread_t t[philo->allphilo];
     int i;
     int handling_error;
 
     i = 0;
     while(i <= philo->allphilo)
     {
-        handling_error = pthread_create(&t[i],NULL,&function_philo,philo);
+        handling_error = pthread_create(&t[i],NULL,&,philo);
         if (handling_error)
-            failure_thread(i, " ==>  Error: pthread_create() failed\n");
+            return('j');
         i++;
     }
     i = 0;
@@ -43,14 +30,22 @@ void execute_program(t_pilo *philo)
     {
         handling_error = pthread_join(t[i],NULL);
         if (handling_error)
-            failure_thread(i," ==>  Error: pthread_join() failed\n");
+           return('j');
         i++;
     }
 }
 
+int execute_program(t_philo *philo)
+{
+    pthread_t t[philo->allphilo];
+    if (shadow_clone(&philo) == 'c')
+        return (printf(" ==>  Error: pthread_create() failed\n"), 1);
+    else if (shadow_clone(&philo) == 'j')
+        return (printf(" ==>  Error: pthread_join() failed\n"), 1); 
+}
 int main(int ac, char **av)
 {
-    t_pilo  philo;
+    t_philo  philo;
     
     check(ac, av);
     philo.allphilo = to_int(av[1]);
@@ -60,7 +55,9 @@ int main(int ac, char **av)
     if (ac == 6)
         philo.number_of_times = to_int(av[5]);
     else
-        philo.number_of_times = -1;
-    execute_program(&philo);
+        philo.number_of_times = 0;
+    
+    if (execute_program(t_philo philo))
+        return(1);    
     return (0);
 }
