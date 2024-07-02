@@ -6,61 +6,71 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/06/12 15:48:28 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:18:53 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHER_C
 #define PHILOSOPHER_C
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
 #include <sys/time.h>
+#include <stdbool.h>
 
-
-#define MAXINT 2147483647 
+#define MAXINT 2147483647
 #define MININT -2147483648
+#define microseconds 1000
+#define milsecond 60
 
-struct philosopher
+typedef struct s_f
 {
-    pthread_t       id;
-    unsigned long   fork[2];
-    unsigned long   eat;
-    unsigned long   think;
-    unsigned long   sleep;
-    unsigned long   meals;
-    char            full;
-};
+    pthread_mutex_t fork_mutex;
+    int             fork_right;
+    int             fork_left;
+} t_fork;
 
+typedef struct s_time
+{
+    struct timeval time;
+    unsigned long current;
+    unsigned long eat;
+    unsigned long dead;
+    unsigned long sleep;
+    unsigned long think;
+}t_time;
 
 typedef struct s_ph
 {
-    unsigned long allphilo;
-    unsigned long Philosopher;
-    unsigned long time_to_eat;
-    unsigned long time_to_dead;
-    unsigned long time_to_sleep;
-    unsigned long meals;
-    unsigned long fork;
-    struct timeval time;
-    pthread_mutex_t mutex;
-    struct philosopher Philosoph;
+    unsigned long   allphilo;
+    unsigned long   Philosopher;
+    unsigned long   time_to_eat;
+    unsigned long   time_to_dead;
+    unsigned long   time_to_sleep;
+    unsigned long   meals;
+    unsigned long   conter;
+    bool            flag_dead;
+    bool            full;
+    
+    t_fork *fork;
+    t_time *time;
 } t_philo;
+
+
+
+
+
+
 
 int *ft_philo(int n);
 
+long to_int(char *str);
+int ft_strcmp(char *s, char *s1);
+char *ft_strdup(char *s1);
 
-void ft_print_(int number,char *s);
-void print_int(int n);
-void printstr(char *s);
-
-long	to_int(char *str);
-
-void ft_perror(char *s);
-void check(int ac, char **av);
-void failure_thread(int i,char *s);
-
+int check(int ac, char **av);
+void out_exe(t_philo *philo);
 
 #endif
