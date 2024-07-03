@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/07/02 18:39:47 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:36:23 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,38 +36,46 @@ long	to_int(char *str)
 	}
 	return (r * s);
 }
-char	*ft_strdup(char *s1)
+void convert_to_microseconds(t_philo *philo)
 {
-	char	*cpy;
-	int		l;
-	int		i;
-
-	l = 0;
-	while(s1[l])
-		l++;
-	i = 0;
-	cpy = (char *)malloc(sizeof(char) * l + 1);
-	if (cpy == NULL)
-		return (NULL);
-	while (s1[i])
-	{
-		cpy[i] = s1[i];
-		i++;
-	}
-	cpy[i] = 0;
-	return (cpy);
+	philo->time.dead = philo->time_to_dead * microseconds;
+	philo->time.eat = philo->time_to_eat * microseconds;
+	philo->time.sleep = philo->time_to_sleep * microseconds;
+	philo->time.think = philo->time_to_think * microseconds;
 }
-int ft_strcmp(char *s, char *s1)
+// static void asignfork(t_philo *philo)
+// {
+// 	int i;
+
+// 	i = -1;
+// 	while (++i < philo->allphilo)
+// 	{
+// 		philo->philo[i]->fork->fork_right = i;
+// 		if (i == 0)
+// 			philo->philo[i]->fork->fork_left = philo->allphilo;
+// 		else
+// 			philo->philo[i]->fork->fork_left = i + 1;
+// 	}
+// }
+int init_philosopher(t_philo *philo)
 {
 	int i;
-
-	i = 0;
-	while (s[i] && s1[i] && s[i] != s1[i])
-		i++;
-	return (s[i] - s1[i]);
+	
+	philo->philo = (struct s_ph *)malloc(philo->allphilo * sizeof(struct s_ph));
+    if (!philo->philo)
+        return(1);
+	i = -1;
+	while (++i < philo->allphilo)
+	{
+		philo->philo[i].id = i;
+		philo->philo[i].fork.fork_right = i;
+		if (i == philo->allphilo  - 1)
+			philo->philo[i].fork.fork_left = 0;
+		else
+			philo->philo[i].fork.fork_left = i + 1;
+		printf("id for thread ==> %d\n",philo->philo[i].id + 1);
+		printf(BLUE_TEXT"id for right fork ==> %d\n"RESET_COLOR,philo->philo[i].fork.fork_right);
+		printf(RED_TEXT"id for left fork ==> %d\n"RESET_COLOR,philo->philo[i].fork.fork_left);
+	}
+	return 0;
 }
-// void out_exe(t_philo *philo)
-// {
-// 	free(philo->Philosoph.id);	
-// 	free(philo->Philosoph.handling_error);	
-// }

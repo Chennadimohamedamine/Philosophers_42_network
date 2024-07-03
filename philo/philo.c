@@ -6,12 +6,20 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/07/02 19:11:52 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:15:21 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
+// int execute_program(t_philo *philo)
+// {
+//     // philo->philo = (struct s_ph *)malloc(philo->allphilo * sizeof(struct s_ph));
+//     // philo->fork = (struct s_f *)malloc(philo->allphilo * sizeof(struct s_f));
+//     if (!philo->philo)
+//         printf("error malloc \n");
+//     return 0;
+// }
 
 int init_philo(int ac, char **av,t_philo *philo)
 {
@@ -22,7 +30,7 @@ int init_philo(int ac, char **av,t_philo *philo)
     philo->time_to_eat = to_int(av[3]);
     philo->time_to_sleep = to_int(av[4]);
     if (philo->allphilo == 0)
-        return (printf("error [you can not run with 0 philosopher]\n"),1);
+        return (printf("Error [you can not run with 0 philosopher]\n"),1);
     else if (philo->allphilo > 200)
         return (printf("Do not test with more than 200 philosophers\n"),1);
     else if (philo->time_to_dead < milsecond || philo->time_to_eat < milsecond
@@ -33,6 +41,9 @@ int init_philo(int ac, char **av,t_philo *philo)
     else
         philo->meals = -1;
     philo->flag_dead = false;
+    convert_to_microseconds(philo);
+    if (init_philosopher(philo))
+        return (1);
     return (0);
 }
 int main(int ac, char **av)
