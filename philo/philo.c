@@ -6,14 +6,15 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/09/29 18:30:33 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:33:12 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 void printdata(t_data *d)
-{printf(">>>>>>>>================ { print data } =====================<<<<<<<<<<<<<<\n");
+{
+    printf(">>>>>>>>================ { print data } =====================<<<<<<<<<<<<<<\n");
     printf("all the philosopher is %d\n",d->philosophers);
     printf("time to eat is %d\n",d->time_to_eat);
     printf("time to think is %d\n",d->time_to_think);
