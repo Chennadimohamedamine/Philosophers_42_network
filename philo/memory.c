@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 12:03:24 by mochenna          #+#    #+#             */
-/*   Updated: 2024/09/18 01:51:18 by mochenna         ###   ########.fr       */
+/*   Created: 2024/09/19 16:42:17 by mochenna          #+#    #+#             */
+/*   Updated: 2024/09/29 16:33:03 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	if (fd < 0 || !s)
-		return ;
-	i = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
+// void *ft_malloc(size_t size, int flag)
+// {
+    
+// }
