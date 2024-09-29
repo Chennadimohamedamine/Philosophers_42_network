@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/09/29 18:29:32 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:30:33 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ bool init_data(int ac, char **av, t_data *philo)
     philo->time_to_dead = to_int(av[2]);
     philo->time_to_eat = to_int(av[3]);
     philo->time_to_sleep = to_int(av[4]);
-    philo->time_to_think = to_int(av[4]);
     if (philo->philosophers == 0)
         return (ft_putstr_fd("Error [you can not run with 0 philosopher]\n", 2),1);
     else if (philo->philosophers > 200)
@@ -69,16 +68,15 @@ bool init_data(int ac, char **av, t_data *philo)
     philo->time.dead = philo->time_to_dead * MICROSECONDS;
 	philo->time.eat = philo->time_to_eat * MICROSECONDS;
 	philo->time.sleep = philo->time_to_sleep * MICROSECONDS;
-	philo->time.think = philo->time_to_think * MICROSECONDS;
+    philo->malloc_failure = false;
+    philo->all_thread_run = false;
+    philo->conter = 0;
+    philo->is_out = false;
     return (init_philo(philo, -1));
 }
 int main(int ac, char **av)
 {
     t_data  philo;
-    philo.malloc_failure = false;
-    philo.all_thread_run = false;
-    philo.conter = 0;
-    philo.is_out = false;
     if (init_data(ac, av, &philo))
         return (1);
     if (philo.malloc_failure == true)
