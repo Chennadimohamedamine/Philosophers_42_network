@@ -1,6 +1,4 @@
-MANDATORY = philo.c philo_utils.c check_utils.c  utils.c \
-			safe.c
- 
+MANDATORY = philo.c philo_utils.c safe.c utils.c 
 OBGFILE_MAN = $(MANDATORY:%.c=%.o)
 PROGRAM = philo
 
