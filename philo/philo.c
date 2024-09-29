@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/09/29 18:05:48 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:22:37 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void printdata(t_data *d)
 
 void    init_philo(t_data *data)
 {
-    data->all_thread_run = false;
-    data->conter = 0;
-    data->is_out = false;
-    data->malloc_failure = false;
+    int i;
+
+    i = -1;
     data->fork = ft_malloc((sizeof(t_fork) * data->philosophers), data);
     if (data->malloc_failure == true)
     {
@@ -48,7 +47,11 @@ void    init_philo(t_data *data)
         ft_putstr_fd(MALLOC_FAILURE, 2);
         return ;
     }
-    
+    while (++i < data->philosophers)
+    {
+        ft_mutex(&data->fork[i].fork, INIT);
+        data->fork[i].fork_id = i;
+    }
 }
 
 bool init_data(int ac, char **av, t_data *philo)
@@ -81,6 +84,10 @@ bool init_data(int ac, char **av, t_data *philo)
 int main(int ac, char **av)
 {
     t_data  philo;
+    philo.malloc_failure = false;
+    philo.all_thread_run = false;
+    philo.conter = 0;
+    philo.is_out = false;
     if (init_data(ac, av, &philo))
         return (1);
     if (philo.malloc_failure == true)
