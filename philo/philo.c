@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/09/29 18:22:37 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:29:32 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,20 @@ void printdata(t_data *d)
     printf("time to dead in microsecend is %lu\n",d->time.dead);
 }
 
-void    init_philo(t_data *data)
+bool    init_philo(t_data *data, int i)
 {
-    int i;
-
-    i = -1;
     data->fork = ft_malloc((sizeof(t_fork) * data->philosophers), data);
     if (data->malloc_failure == true)
-    {
-        ft_putstr_fd(MALLOC_FAILURE, 2);
-        return ;
-    }
     data->philo = ft_malloc((sizeof(t_philo) * data->philosophers), data);
     if (data->malloc_failure == true)
-    {
-        ft_putstr_fd(MALLOC_FAILURE, 2);
-        return ;
-    }
+        return (ft_putstr_fd(MALLOC_FAILURE, 2), true);
     while (++i < data->philosophers)
     {
         ft_mutex(&data->fork[i].fork, INIT);
         data->fork[i].fork_id = i;
     }
+    
+    return (false);
 }
 
 bool init_data(int ac, char **av, t_data *philo)
@@ -78,8 +70,7 @@ bool init_data(int ac, char **av, t_data *philo)
 	philo->time.eat = philo->time_to_eat * MICROSECONDS;
 	philo->time.sleep = philo->time_to_sleep * MICROSECONDS;
 	philo->time.think = philo->time_to_think * MICROSECONDS;
-    init_philo(philo);
-    return (false);
+    return (init_philo(philo, -1));
 }
 int main(int ac, char **av)
 {
