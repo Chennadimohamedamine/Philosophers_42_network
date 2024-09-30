@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/09/29 18:33:12 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/01 00:52:36 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,21 @@ void printdata(t_data *d)
     printf("time to sleep in microsecend is %lu\n",d->time.sleep);
     printf("time to dead in microsecend is %lu\n",d->time.dead);
 }
-
-bool    init_philo(t_data *data, int i)
+void   int_philosophers(t_data *data ,t_philo * philo, t_fork *forks, int id)
+{
+        philo->is_dead = false;
+        philo->id = id;
+        philo->meals_counter = 0;
+        philo->fork_right = &forks[id];
+        philo->fork_left = &forks[(id + 1) % data->philosophers];
+        if (id % 2)
+        {
+            philo->fork_left = &forks[id];
+            philo->fork_right = &forks[(id + 1) % data->philosophers];
+        }
+        philo->data = data;
+}
+bool    init(t_data *data, int i)
 {
     data->fork = ft_malloc((sizeof(t_fork) * data->philosophers), data);
     if (data->malloc_failure == true)
@@ -43,7 +56,8 @@ bool    init_philo(t_data *data, int i)
         ft_mutex(&data->fork[i].fork, INIT);
         data->fork[i].fork_id = i;
     }
-    
+    while (++i < data->philosophers)
+        int_philosophers(data, &data->philo[i], data->fork, i);
     return (false);
 }
 
@@ -73,7 +87,7 @@ bool init_data(int ac, char **av, t_data *philo)
     philo->all_thread_run = false;
     philo->conter = 0;
     philo->is_out = false;
-    return (init_philo(philo, -1));
+    return (init(philo, -1));
 }
 int main(int ac, char **av)
 {
