@@ -1,0 +1,8 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "__threading_support": "c",
+        "__mutex_base": "c",
+        "philosopher.h": "c"
+    }
+}

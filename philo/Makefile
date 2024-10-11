@@ -1,8 +1,8 @@
-MANDATORY = philo.c philo_utils.c safe.c utils.c 
+MANDATORY = philo.c philo_utils.c safe.c utils.c ph_utils.c
 OBGFILE_MAN = $(MANDATORY:%.c=%.o)
 PROGRAM = philo
 
-CFLAG = -Wall -Wextra -Werror  -g -pthread
+CFLAG = -Wall -Wextra -Werror -g -pthread 
 
 %.o: %.c philosopher.h
 	cc $(CFLAG) -o $@ -c $<

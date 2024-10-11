@@ -6,54 +6,59 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:06:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/09/29 18:31:32 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:13:52 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void    *ft_malloc(size_t size, t_data *data)
+void *ft_malloc(size_t size, bool is_free, int ml_failure, char *s)
 {
+    static void *safe_allocation[20000];
+    static int index;
     void *allocat;
-    
-    allocat = malloc(size);
-    if (!allocat)
+    int i;
+
+    if (is_free)
     {
-        data->malloc_failure = true;
+        i = 0;
+        while (safe_allocation[i])
+            free(safe_allocation[i++]);
+        index = 0;
+        safe_allocation[index] = NULL;
+        if (ml_failure == -1337)
+            ft_putstr_fd(s, 2);
         return (NULL);
     }
+    allocat = malloc(size);
+    if (!allocat)
+        return (ft_malloc(0, true, -1337, MALLOC_FAILURE));
+    safe_allocation[index++] = allocat;
+    safe_allocation[index] = NULL;
     return (allocat);
 }
 
 int ft_mutex(t_mtx *mutex, int flag)
 {
-    int status_error;
-
     if (flag == INIT)
-        status_error = pthread_mutex_init(mutex, NULL);
+        return (pthread_mutex_init(mutex, NULL));
     else if (flag == LOCK)
-        status_error = pthread_mutex_lock(mutex);
+        return (pthread_mutex_lock(mutex));
     else if (flag == UNLOCK)
-        status_error = pthread_mutex_unlock(mutex);
+        return (pthread_mutex_unlock(mutex));
     else if (flag == DESTORTY)
-        status_error = pthread_mutex_destroy(mutex);
-    else
-        status_error = -1337;
-    return (status_error);
+        return (pthread_mutex_destroy(mutex));
+    return (1337);
 }
-int ft_thread(pthread_t *thead, void *(*fun)(void *) , void *arg, int flag)
+int ft_thread(pthread_t *thead, void *(*fun)(void *), void *arg, int flag)
 {
-    int status_error;
-
     if (flag == CREATE)
-        status_error = pthread_create(thead, NULL, fun, arg);
+        return (pthread_create(thead, NULL, fun, arg));
     else if (flag == JOIN)
-        status_error = pthread_join(*thead, NULL);
+        return (pthread_join(*thead, NULL));
     else if (flag == DETACH)
-        status_error = pthread_detach(*thead);
-    else
-        status_error = -1337;
-    return (status_error);
+        return (pthread_detach(*thead));
+    return (1337);
 }
 
 bool valid_input(char *s)
@@ -79,13 +84,13 @@ bool valid_input(char *s)
     }
     return (false);
 }
-bool checker(int ac, char **av)
+bool ft_check_data(int ac, char **av, t_share *arg)
 {
     int i;
     long r;
 
     if (ac != 5 && ac != 6)
-            return (ft_putstr_fd(ERRO_INVARG, 2), true);
+        return (ft_putstr_fd(ERRO_INVARG, 2), true);
     i = 1;
     while (i < ac)
     {
@@ -98,5 +103,7 @@ bool checker(int ac, char **av)
             return (ft_putstr_fd(ERRO_INVARG_NOT_INT, 2), true);
         i++;
     }
+    if (ft_parc_digit(arg, av, ac))
+        return (true);
     return (false);
 }

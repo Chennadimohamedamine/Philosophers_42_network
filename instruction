@@ -4,3 +4,5 @@ left fork = ([philo_position + 1] % philo_nbr);
 
 ≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠===========≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠==≠≠≠≠≠===≠==≠=≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠===========≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=
 
+1 second ==> 1000 milliseconds ==> 1000 microseconds == > 1000 nanoseconds
+1 second = 1,000 milliseconds = 1,000,000 microseconds = 1,000,000,000 nanoseconds
