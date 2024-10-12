@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/11 18:42:58 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:36:39 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,5 @@ bool if_eat_all_meals(t_philo *philo);
 bool if_dead(t_philo *philo);
 void ft_write(t_philo *philo, int flag);
 void ft_hold_forks(t_philo *philo);
+void ft_eat(t_philo *philo);
 #endif

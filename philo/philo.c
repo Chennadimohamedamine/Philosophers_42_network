@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/11 18:44:42 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:37:56 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,11 @@ void *ft_lifesycle(void *arg)
     {
         ft_hold_forks(philo);
         ft_eat(philo);
-        ft_
+        ft_mutex(philo->left_fork, UNLOCK);
+        ft_mutex(philo->right_fork, UNLOCK);
+        ft_write(philo,SLEEP);
+        ft_sleep(philo->arg->time_sleep);
+        ft_write(philo,THINK);
     }
     return (NULL);
 }
@@ -99,10 +103,10 @@ void ft_run_thread(t_philo *philo, t_share *arg)
     {
         ft_thread(&philo[i].id_thread, ft_lifesycle, philo, INIT);
     }
-    ft_thread(arg->monito, NULL, NULL, JOIN);
+    ft_thread(&arg->monitor, NULL, NULL, JOIN);
     i = - 1;
     while (++i < arg->nbr_philo)
-        ft_thread(philo[i].id_thread, NULL, NULL, JOIN);
+        ft_thread(&philo[i].id_thread, NULL, NULL, JOIN);
 }
 int main(int ac, char **av)
 {

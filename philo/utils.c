@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/11 17:29:02 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:40:05 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ void ft_init_mutexs(t_data *data, t_share *arg, t_mtx *forks)
 
 bool if_dead(t_philo *philo)
 {
-    ft_mutex(&data->mtx[2], LOCK);  
+    ft_mutex(&philo->data->mtx[2], LOCK);  
     if (philo->data->end_similation == true)
     {
-        ft_mutex(&data->mtx[2], UNLOCK);  
-        return (true);
+        ft_mutex(&philo->data->mtx[2], UNLOCK);  
+        return (false);
     }
-    ft_mutex(&data->mtx[2], UNLOCK);  
-    return (false);
+    ft_mutex(&philo->data->mtx[2], UNLOCK);  
+    return (true);
 }
