@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/12 15:16:19 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:05:48 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,12 @@ typedef struct s_data
 {
     bool        start_flag;
     int         ready_count;
+    int         full_philos;
 	long		start_similation;
     t_mtx       monitor;
 	t_mtx       print;
 	t_mtx       meals;
+    t_mtx       stop_mtx;
     t_mtx       mtx[4];
     long long   start_time;
 	bool		end_similation;
@@ -103,7 +105,7 @@ long gettime(void);
 void ft_init_mutexs(t_data *data, t_share *arg, t_mtx *forks);
 void endsimilation(t_philo *philo);
 bool if_eat_all_meals(t_philo *philo);
-bool if_dead(t_philo *philo);
+bool is_dead(t_philo *philo);
 void ft_write(t_philo *philo, int flag);
 void ft_hold_forks(t_philo *philo);
 void ft_eat(t_philo *philo);

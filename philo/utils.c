@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/12 01:40:05 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:11:58 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,33 @@ void ft_sleep(long mls)
 
     start = gettime();
     while ((gettime() - start) < mls)
-        usleep(200);
+    {
+        
+        usleep(100);
+    }
 }
 void endsimilation(t_philo *philo)
 {
-    ft_mutex(&philo->data->mtx[0], LOCK);
-    philo->data->end_similation = true;
-    ft_mutex(&philo->data->mtx[0], UNLOCK);
+    ft_mutex(&philo->data->stop_mtx, LOCK);
+    philo->data->end_similation = true ;
+    ft_mutex(&philo->data->stop_mtx, UNLOCK);
 }
 bool if_eat_all_meals(t_philo *philo)
 {
     if (philo->arg->meals != -1337)
     {
-        ft_mutex(&philo->data->mtx[1], LOCK);
-        if (philo->arg->meals == philo->meals_counter)
+        ft_mutex(&philo->data->meals, LOCK);
+        if (philo->arg->nbr_philo == philo->data->full_philos)
         {
-             ft_mutex(&philo->data->mtx[1], UNLOCK);
+            ft_mutex(&philo->data->meals, UNLOCK);
+            
+            ft_mutex(&philo->data->stop_mtx, LOCK);
+            philo->data->end_similation = true;
+            ft_mutex(&philo->data->stop_mtx, UNLOCK);
+            
             return (true);
         }
-        ft_mutex(&philo->data->mtx[1], UNLOCK);
+        ft_mutex(&philo->data->meals, UNLOCK);
     }
     return (false);
 }
@@ -74,6 +82,7 @@ void ft_init_mutexs(t_data *data, t_share *arg, t_mtx *forks)
     i = -1;
     while (++i < arg->nbr_philo)
         ft_mutex(&forks[i], INIT);
+    ft_mutex(&data->stop_mtx, INIT);
     ft_mutex(&data->print, INIT);
     ft_mutex(&data->monitor, INIT);
     ft_mutex(&data->meals, INIT);
@@ -82,14 +91,14 @@ void ft_init_mutexs(t_data *data, t_share *arg, t_mtx *forks)
         ft_mutex(&data->mtx[i++], INIT);
 }
 
-bool if_dead(t_philo *philo)
+bool is_dead(t_philo *philo)
 {
-    ft_mutex(&philo->data->mtx[2], LOCK);  
+    ft_mutex(&philo->data->stop_mtx, LOCK);  
     if (philo->data->end_similation == true)
     {
-        ft_mutex(&philo->data->mtx[2], UNLOCK);  
-        return (false);
+        ft_mutex(&philo->data->stop_mtx, UNLOCK);  
+        return (true);
     }
-    ft_mutex(&philo->data->mtx[2], UNLOCK);  
-    return (true);
+    ft_mutex(&philo->data->stop_mtx, UNLOCK);  
+    return (false);
 }
