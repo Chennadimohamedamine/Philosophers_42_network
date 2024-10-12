@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:42:33 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/12 01:38:41 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:00:32 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void ft_write(t_philo *philo, int flag)
     long time;
     
     ft_mutex(&philo->data->print, LOCK);
-    time = gettime() - philo->last_meals_time;
+    time = gettime() - philo->data->start_similation;
     if (flag == FORK)
         printf("%ld %d has taken a fork\n", time, philo->id);
     else if (flag == EAT)
@@ -40,11 +40,11 @@ void ft_eat(t_philo *philo)
 {
     ft_mutex(&philo->data->mtx[3], LOCK);
     ft_write(philo, EAT);
-    ft_sleep(philo->arg->time_eat);
     philo->last_meals_time = gettime();
+    ft_sleep(philo->arg->time_eat);
     ft_mutex(&philo->data->mtx[3], UNLOCK);
     ft_mutex(&philo->data->meals, LOCK);
     if (philo->arg->meals != -1337)
         philo->meals_counter++;
-    ft_mutex(&philo->data->meals, LOCK);
+    ft_mutex(&philo->data->meals, UNLOCK);
 }

@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/12 01:37:56 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/12 16:08:14 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ bool init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
 
     ft_init_mutexs(data, arg, forks);
     i = -1;
-    data->end_similation = false;
+    data->end_similation = true;
+    data->start_similation = gettime();
     while (++i < arg->nbr_philo)
     {
         philo[i].id = i + 1;
@@ -76,11 +77,10 @@ void *ft_monitor(void *arg)
 void *ft_lifesycle(void *arg)
 {
     t_philo *philo;
-
     philo = (t_philo *)arg;
     
     if (philo->id  % 2 == 0)
-        ft_sleep(philo->arg->time_eat);
+        ft_sleep(100);
     while (!if_dead(philo))
     {
         ft_hold_forks(philo);
@@ -101,7 +101,7 @@ void ft_run_thread(t_philo *philo, t_share *arg)
     ft_thread(&arg->monitor, ft_monitor, philo, CREATE);
     while (++i < arg->nbr_philo)
     {
-        ft_thread(&philo[i].id_thread, ft_lifesycle, philo, INIT);
+        ft_thread(&philo[i].id_thread, ft_lifesycle, &philo[i], INIT);
     }
     ft_thread(&arg->monitor, NULL, NULL, JOIN);
     i = - 1;
