@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:06:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/10 21:13:52 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:16:04 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void *ft_malloc(size_t size, bool is_free, int ml_failure, char *s)
 {
-    static void *safe_allocation[20000];
+    static void *safe_allocation[1000];
     static int index;
     void *allocat;
     int i;

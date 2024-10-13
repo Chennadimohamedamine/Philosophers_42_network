@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:42:33 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/12 23:02:28 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/13 17:03:49 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void ft_hold_forks(t_philo *philo)
 void ft_eat(t_philo *philo)
 {
     ft_write(philo, EAT);
-    ft_sleep(philo->arg->time_eat);
+    ft_sleep(philo->arg->time_eat, philo);
     ft_mutex(&philo->data->monitor, LOCK);
     philo->last_meals_time = gettime();
     ft_mutex(&philo->data->monitor, UNLOCK);
@@ -49,9 +49,28 @@ void ft_eat(t_philo *philo)
     ft_mutex(&philo->data->meals, LOCK);
     if (philo->arg->meals != -1337)
     {
-        philo->meals_counter += 1; // 4 3 1
+        philo->meals_counter += 1;
         if (philo->meals_counter == philo->arg->meals)
             philo->data->full_philos += 1;
     }
     ft_mutex(&philo->data->meals, UNLOCK);
+}
+long gettime(void)
+{
+    t_time current_time;
+
+    if (gettimeofday(&current_time, NULL) != 0)
+        return (ft_putstr_fd(TIME_FAILURE, 2), -1337);
+    return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+}
+bool is_dead(t_philo *philo)
+{
+    ft_mutex(&philo->data->stop_mtx, LOCK);  
+    if (philo->data->end_similation == true)
+    {
+        ft_mutex(&philo->data->stop_mtx, UNLOCK);  
+        return (true);
+    }
+    ft_mutex(&philo->data->stop_mtx, UNLOCK);  
+    return (false);
 }

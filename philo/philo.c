@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/12 23:05:02 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/13 18:21:39 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ bool init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
 {
     int i;
 
-    ft_init_mutexs(data, arg, forks);
+    if (ft_init_mutexs(data, arg, forks))
+        return (ft_malloc(0, true, 0, NULL),true);
     i = -1;
     data->end_similation = false;
     data->start_similation = gettime();
@@ -44,37 +45,6 @@ bool init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
     }
     return (false);
 }
-void leaks()
-{
-    system("leaks philo");
-}
-void *ft_monitor(void *arg)
-{
-    long passtime;
-    int i;
-    t_philo *philo;
-
-    philo = (t_philo *)arg;
-    while (1337)
-    {
-        i = -1;
-        while (++i < philo[0].arg->nbr_philo)
-        {
-            ft_mutex(&philo[0].data->monitor, LOCK);
-            passtime = gettime() - philo[i].last_meals_time;
-            if (passtime > philo[i].arg->time_dead)
-            {
-                endsimilation(&philo[i]);
-                printf("%ld %d died\n", passtime, philo[i].id);
-                return (ft_mutex(&philo[0].data->monitor, UNLOCK), NULL);
-            }
-            ft_mutex(&philo[0].data->monitor, UNLOCK);
-            if (if_eat_all_meals(&philo[i]))
-                return (NULL);
-        }
-    }
-    return (NULL);
-}
 
 void *ft_lifesycle(void *arg)
 {
@@ -82,7 +52,7 @@ void *ft_lifesycle(void *arg)
     philo = (t_philo *)arg;
 
     if (philo->id % 2 == 0)
-        ft_sleep(philo->arg->time_eat);
+        ft_sleep(philo->arg->time_eat, philo);
     while (1337)
     {
         if (is_dead(philo))
@@ -92,7 +62,7 @@ void *ft_lifesycle(void *arg)
         ft_mutex(philo->left_fork, UNLOCK);
         ft_mutex(philo->right_fork, UNLOCK);
         ft_write(philo, SLEEP);
-        ft_sleep(philo->arg->time_sleep);
+        ft_sleep(philo->arg->time_sleep, philo);
         ft_write(philo, THINK);
     }
     return (NULL);

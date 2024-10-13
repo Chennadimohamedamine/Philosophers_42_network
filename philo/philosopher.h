@@ -6,12 +6,12 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/12 23:05:48 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/13 18:31:39 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHER_C
-#define PHILOSOPHER_C
+#ifndef PHILOSOPHER_H
+#define PHILOSOPHER_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -84,29 +84,26 @@ typedef struct s_data
 	t_mtx       print;
 	t_mtx       meals;
     t_mtx       stop_mtx;
-    t_mtx       mtx[4];
     long long   start_time;
 	bool		end_similation;
 } t_data;
 
-// function utils
 void	ft_putstr_fd(char *s, int fd);
 long    to_int(char *str);
 bool    ft_check_data(int ac, char **av, t_share *arg);
 bool    ft_parc_digit(t_share *arg, char **av, int ac);
-
-// sfae function 
 int ft_mutex(t_mtx *mutex, int flag);
 int ft_thread(pthread_t *thead, void *(*fun)(void *) , void *arg, int flag);
 void *ft_malloc(size_t size, bool is_free, int ml_failure, char *s);
-void ft_sleep(long mls);
-// function excute
+void ft_sleep(long mls ,t_philo *philo);
 long gettime(void);
-void ft_init_mutexs(t_data *data, t_share *arg, t_mtx *forks);
+bool ft_init_mutexs(t_data *data, t_share *arg, t_mtx *forks);
 void endsimilation(t_philo *philo);
 bool if_eat_all_meals(t_philo *philo);
 bool is_dead(t_philo *philo);
 void ft_write(t_philo *philo, int flag);
 void ft_hold_forks(t_philo *philo);
 void ft_eat(t_philo *philo);
+void *ft_monitor(void *arg);
+void ft_safe_destroy_mutex(void *mtx, bool free, int mtx_failure, char *s);
 #endif
