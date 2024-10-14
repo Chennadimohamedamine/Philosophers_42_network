@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:24 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/13 17:07:06 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:51:30 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ long	to_int(char *str)
 	i = 0;
 	s = 1;
 	r = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+        i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')
@@ -48,4 +50,13 @@ long	to_int(char *str)
             return (2147483649);
 	}
 	return (r * s);
+}
+int ft_strlen(char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/13 18:31:39 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:50:36 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_data
 
 void	ft_putstr_fd(char *s, int fd);
 long    to_int(char *str);
+int ft_strlen(char *s);
 bool    ft_check_data(int ac, char **av, t_share *arg);
 bool    ft_parc_digit(t_share *arg, char **av, int ac);
 int ft_mutex(t_mtx *mutex, int flag);

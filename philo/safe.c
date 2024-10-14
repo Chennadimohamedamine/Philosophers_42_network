@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:06:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/13 17:16:04 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:50:18 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,14 @@ int ft_thread(pthread_t *thead, void *(*fun)(void *), void *arg, int flag)
 bool valid_input(char *s)
 {
     int i;
+    int len;
 
     i = 0;
-    while (s[i] == ' ')
+    while (s[i] == ' ' || (s[i] >= 9 && s[i] <= 13))
         i++;
+    len = ft_strlen(s) - 1;
+    while (s[len] == ' ' || (s[len] >= 9 && s[len] <= 13))
+        len--;
     if (!s[i])
         return (ft_putstr_fd(ERRO_NUM, 2), true);
     else if (s[i] == '-')
@@ -76,7 +80,7 @@ bool valid_input(char *s)
         return (ft_putstr_fd(ERRO_VNUM, 2), true);
     else if (s[i] == '+')
         i++;
-    while (s[i])
+    while (i <= len)
     {
         if (!(s[i] >= '0' && s[i] <= '9'))
             return (ft_putstr_fd(ERRO_DNUM, 2), true);

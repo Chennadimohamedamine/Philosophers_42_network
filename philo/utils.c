@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/13 18:37:22 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:42:50 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,20 @@ bool ft_init_mutexs(t_data *data, t_share *arg, t_mtx *forks)
     while (++i < arg->nbr_philo)
     {
         if (ft_mutex(&forks[i], INIT))
-            return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Mutex failure"), true);
+            return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Error Mutex failure"), true);
         ft_safe_destroy_mutex(&forks[i], false, 1337, "42");
     }
     if (ft_mutex(&data->stop_mtx, INIT))
-        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Mutex failure"), true);
+        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS!Error  Mutex failure"), true);
     ft_safe_destroy_mutex(&data->stop_mtx, false, 1337, "42");
     if (ft_mutex(&data->print, INIT))
-        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Mutex failure"), true);
+        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Error Mutex failure"), true);
     ft_safe_destroy_mutex(&data->print, false, 1337, "42");
     if (ft_mutex(&data->monitor, INIT))
-        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Mutex failure"), true);
+        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Error Mutex failure"), true);
     ft_safe_destroy_mutex(&data->monitor, false, 1337, "42");
     if (ft_mutex(&data->meals, INIT) == -1337)
-        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Mutex failure"), true);
+        return (ft_safe_destroy_mutex(NULL, true, -1337, "OPS! Error Mutex failure"), true);
     ft_safe_destroy_mutex(&data->meals, false, 1337, "42");
     return (false);
 }
@@ -146,5 +146,6 @@ void ft_safe_destroy_mutex(void *mtx, bool free, int mtx_failure, char *s)
         return;
     }
     mutexs[index++] = mtx;
+    printf("{%d}\n",index);
     mutexs[index] = NULL;
 }
