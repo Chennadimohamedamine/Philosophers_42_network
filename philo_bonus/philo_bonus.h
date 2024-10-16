@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 16:45:31 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/13 16:46:48 by mochenna         ###   ########.fr       */
+/*   Created: 2024/10/15 16:38:29 by mochenna          #+#    #+#             */
+/*   Updated: 2024/10/15 16:46:32 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef PHILO_BONUS_H
+#ifndef PHILO_BONUS_H
 #define PHILO_BONUS_H
 
 #include <stdio.h>
@@ -19,6 +19,7 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include <stdbool.h>
+#include <semaphore.h>
 
 #define MAXINT 2147483647
 #define MININT -2147483648
@@ -33,17 +34,39 @@
 #define ERRO_INVARG_NOT_INT "OPS! you have  invalid argument [you must have enter agument not geart max or less min integer]\n"
 #define MALLOC_FAILURE "Error: malloc failed to allocate memory\n"
 #define TIME_FAILURE "Error: gettimeofday failed"
-#define INIT 1
-#define LOCK 2
-#define UNLOCK 3
-#define DESTORTY 4
-#define CREATE 1
-#define JOIN 2
-#define DETACH 3
-#define FORK 1
-#define EAT 2
-#define SLEEP 3
-#define THINK 4
 
+typedef struct s_share
+{
+    int    nbr_philo;
+    int  time_eat;
+    int  time_dead;
+    int  time_sleep;
+    int  meals;
+} t_share;
 
+typedef struct s_data
+{
+    bool        start_flag;
+    int         ready_count;
+    int         full_philos;
+	long		start_similation;
+    long long   start_time;
+	bool		end_similation;
+} t_data;
+
+typedef struct s_philo
+{
+    int         id;
+    long        meals_counter;
+    long        last_meals_time;
+    bool        is_dead;
+    long long        start;
+    t_data      *data;
+    t_share     *arg;
+} t_philo;
+void	ft_putstr_fd(char *s, int fd);
+long    to_int(char *str);
+int ft_strlen(char *s);
+bool    ft_check_data(int ac, char **av, t_share *arg);
+bool    ft_parc_digit(t_share *arg, char **av, int ac);
 #endif

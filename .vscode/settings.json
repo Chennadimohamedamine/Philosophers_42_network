@@ -4,7 +4,8 @@
         "__threading_support": "c",
         "__mutex_base": "c",
         "philosopher.h": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "philo_bonus.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

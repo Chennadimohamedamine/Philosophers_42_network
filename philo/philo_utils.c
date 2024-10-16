@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:24 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/14 02:51:30 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:02:35 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
+
 long	to_int(char *str)
 {
 	int		i;
@@ -35,7 +36,7 @@ long	to_int(char *str)
 	s = 1;
 	r = 0;
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-        i++;
+		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')
@@ -46,14 +47,15 @@ long	to_int(char *str)
 	{
 		r *= 10;
 		r += str[i++] - 48;
-        if (r > MAXINT)
-            return (2147483649);
+		if (r > MAXINT)
+			return (2147483649);
 	}
 	return (r * s);
 }
-int ft_strlen(char *s)
+
+int	ft_strlen(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])

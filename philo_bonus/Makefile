@@ -1,4 +1,4 @@
-FILE = safe_bonus.c utils_bonus.c 
+FILE = safe_bonus.c utils_bonus.c main.c init_bonus.c 
 OBGFILE_MAN = $(FILE:%.c=%.o)
 PROGRAM = philo_bonus
 
