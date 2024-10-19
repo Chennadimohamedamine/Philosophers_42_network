@@ -2,7 +2,7 @@ MANDATORY = philo.c philo_utils.c safe.c utils.c ph_utils.c
 OBGFILE_MAN = $(MANDATORY:%.c=%.o)
 PROGRAM = philo
 
-#CFLAG = -Wall -Wextra -Werror -pthread
+CFLAG = -Wall -Wextra -Werror -pthread -g
 
 %.o: %.c philosopher.h
 	cc $(CFLAG) -o $@ -c $<
@@ -20,7 +20,7 @@ fclean: clean
 
 re: fclean all
 
-# .PHONY: all clean fclean re
+.PHONY: all clean fclean re
 # MANDATORY = philo.c philo_utils.c safe.c utils.c ph_utils.c
 # OBGFILE_MAN = $(MANDATORY:%.c=%.o)
 # PROGRAM = philo

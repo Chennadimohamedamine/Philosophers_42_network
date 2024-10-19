@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/16 17:01:46 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:03:55 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int	main(int ac, char **av)
 
 	if (!ft_check_data(ac, av, &arg))
 	{
+		if (arg.meals == 0)
+			return (0);
 		if (ft_allocat_data(&philo, &forks, arg))
 			return (1);
 		if (init_data(&data, &arg, philo, forks))

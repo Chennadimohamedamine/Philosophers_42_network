@@ -1,5 +1,5 @@
-FILE = safe_bonus.c utils_bonus.c main.c init_bonus.c 
-OBGFILE_MAN = $(FILE:%.c=%.o)
+FILE = main_bonus.c process_bonus.c utils_bonus.c parc_bonus.c
+OBGFILE_BONUS = $(FILE:%.c=%.o)
 PROGRAM = philo_bonus
 
 CFLAG = -Wall -Wextra -Werror
@@ -7,13 +7,13 @@ CFLAG = -Wall -Wextra -Werror
 %.o: %.c philo_bonus.h
 	cc $(CFLAG) -o $@ -c $<
 
-$(PROGRAM): $(OBGFILE_MAN)
-	cc $(OBGFILE_MAN) -o $(PROGRAM)
+$(PROGRAM): $(OBGFILE_BONUS)
+	cc $(OBGFILE_BONUS) -o $(PROGRAM)
 
 all : $(PROGRAM)
 
 clean:
-	rm -f $(OBGFILE_MAN)
+	rm -f $(OBGFILE_BONUS)
 
 fclean: clean
 	rm -f $(PROGRAM)

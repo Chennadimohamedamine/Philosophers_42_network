@@ -5,7 +5,9 @@
         "__mutex_base": "c",
         "philosopher.h": "c",
         "chrono": "c",
-        "philo_bonus.h": "c"
+        "philo_bonus.h": "c",
+        "__locale": "c",
+        "locale": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }

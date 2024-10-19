@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/16 17:07:52 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:04:21 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,16 @@ bool	ft_parc_digit(t_share *arg, char **av, int ac)
 	arg->nbr_philo = to_int(av[1]);
 	arg->time_dead = to_int(av[2]);
 	arg->time_eat = to_int(av[3]);
-	arg->time_sleep = to_int(av[4]);
+	arg->time_sleep = to_int(av[4]);	
 	if (arg->nbr_philo == 0)
 		return (ft_putstr_fd("Error [you can not run with 0 philosopher]\n", 2), true);
 	else if (arg->nbr_philo > 200)
 		return (ft_putstr_fd("Do not test with more than 200 philosophers\n", 2), true);
 	else if (arg->time_dead < MILSECOND
 		|| arg->time_eat < MILSECOND || arg->time_sleep < MILSECOND)
-		return (ft_putstr_fd("Do not test values lower than 60 ms \n", 2 , true));
+		return (ft_putstr_fd("Do not test values lower than 60 ms \n", 2 ), true);
 	if (ac == 6)
-	{
 		arg->meals = to_int(av[5]);
-		if (arg->meals <= 0)
-			return (ft_putstr_fd("Do not test values lower than 0 in meals \n", 2), true);
-	}
 	else
 		arg->meals = -1337;
 	return (false);
