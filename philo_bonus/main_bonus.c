@@ -6,13 +6,13 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:37:35 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/19 16:40:31 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/20 01:44:44 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-bool ft_start_simulation(t_data *data, t_philo *philo)
+void ft_start_simulation(t_data *data, t_philo *philo)
 {
     int i;
     int status;
@@ -22,7 +22,10 @@ bool ft_start_simulation(t_data *data, t_philo *philo)
     {
         philo[i].pid = fork();
         if (philo[i].pid < 0)
-            return (ft_clean(data, -1337), true);
+        {
+            ft_clean(data, -1337);
+            return  ;
+        }
         if (philo[i].pid == 0)
         {
             ft_lifesycle(&philo[i]);
@@ -34,7 +37,6 @@ bool ft_start_simulation(t_data *data, t_philo *philo)
     while (++i < data->nbr_philo)
         kill(philo[i].pid, SIGKILL);
     ft_clean(data, 1337);
-    return (true);
 }
 int main(int ac, char **av)
 {
@@ -48,8 +50,7 @@ int main(int ac, char **av)
             return (1);
         if (ft_init_data(&arg, philo))
             return (1);
-        if (ft_start_simulation(&arg, philo))
-            return (1);
+        ft_start_simulation(&arg, philo);
     }
     else
         return (1);

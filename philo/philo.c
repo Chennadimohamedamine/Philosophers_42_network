@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/18 15:03:55 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:47:32 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ bool	ft_allocat_data(t_philo **philo, t_mtx **forks, t_share arg)
 {
 	if (arg.nbr_philo != 1)
 	{
-		(*forks) = (t_mtx *)ft_malloc(sizeof(t_mtx) * arg.nbr_philo \
-				, false, 1337, NULL);
+		(*forks) = (t_mtx *)ft_malloc(sizeof(t_mtx) * arg.nbr_philo,
+				false, 1337, NULL);
 		if (!(*forks))
 			return (true);
-		(*philo) = (t_philo *)ft_malloc(sizeof(t_philo) * arg.nbr_philo \
-			, false, 1337, NULL);
+		(*philo) = (t_philo *)ft_malloc(sizeof(t_philo) * arg.nbr_philo,
+				false, 1337, NULL);
 		if (!(*philo))
 			return (true);
 	}
@@ -35,7 +35,7 @@ bool	init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
 	if (arg->nbr_philo != 1)
 	{
 		if (ft_init_mutexs(data, arg, forks))
-			return (ft_malloc(0, true, 0, NULL), true);
+			return (true);
 		i = -1;
 		data->end_similation = false;
 		data->start_similation = gettime();
@@ -68,11 +68,14 @@ void	*ft_lifesycle(void *arg)
 			break ;
 		ft_hold_forks(philo);
 		ft_eat(philo);
-		ft_mutex(philo->left_fork, UNLOCK);
-		ft_mutex(philo->right_fork, UNLOCK);
+		if (ft_mutex(philo->left_fork, UNLOCK))
+			return (NULL);
+		if (ft_mutex(philo->right_fork, UNLOCK))
+			return (NULL);
 		ft_write(philo, SLEEP);
 		ft_sleep(philo->arg->time_sleep, philo);
 		ft_write(philo, THINK);
+		ft_sleep(100, philo);
 	}
 	return (NULL);
 }
@@ -88,15 +91,22 @@ void	ft_run_thread(t_philo *philo, t_share *arg)
 		return ;
 	}
 	i = -1;
-	ft_thread(&arg->monitor, ft_monitor, philo, CREATE);
+	if (ft_thread(&arg->monitor, ft_monitor, philo, CREATE))
+		return ;
 	while (++i < arg->nbr_philo)
-		ft_thread(&philo[i].id_thread, ft_lifesycle, &philo[i], INIT);
-	ft_thread(&arg->monitor, NULL, NULL, JOIN);
+	{
+		if (ft_thread(&philo[i].id_thread, ft_lifesycle, &philo[i], INIT))
+			return ;
+	}
+	if (ft_thread(&arg->monitor, NULL, NULL, JOIN))
+		return ;
 	i = -1;
 	while (++i < arg->nbr_philo)
-		ft_thread(&philo[i].id_thread, NULL, NULL, JOIN);
-	ft_malloc(0, true, 0, NULL);
-	ft_safe_destroy_mutex(NULL, true, 1337, NULL);
+	{
+		if (ft_thread(&philo[i].id_thread, NULL, NULL, JOIN))
+			return ;
+	}
+	ft_cleanup(0);
 }
 
 int	main(int ac, char **av)

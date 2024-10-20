@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/19 16:10:25 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:48:22 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 		[you must have enter agument not geart max or less min integer]\n"
 # define MALLOC_FAILURE "Error: malloc failed to allocate memory\n"
 # define TIME_FAILURE "Error: gettimeofday failed"
+# define ERRO_THREAD "Error: pthread failed \n"
+# define ERRO_MUTEX "Error: mutex failed\n"
 # define INIT 1
 # define LOCK 2
 # define UNLOCK 3
@@ -110,5 +112,6 @@ void	ft_write(t_philo *philo, int flag);
 void	ft_hold_forks(t_philo *philo);
 void	ft_eat(t_philo *philo);
 void	*ft_monitor(void *arg);
-void	ft_safe_destroy_mutex(void *mtx, bool free, int mtx_failure, char *s);
+void	ft_safe_destroy_mutex(void *mtx, bool free);
+void	ft_cleanup(int flag);
 #endif

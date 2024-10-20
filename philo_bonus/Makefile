@@ -1,4 +1,4 @@
-FILE = main_bonus.c process_bonus.c utils_bonus.c parc_bonus.c
+FILE = main_bonus.c process_bonus.c utils_bonus.c parc_bonus.c process_utils.c
 OBGFILE_BONUS = $(FILE:%.c=%.o)
 PROGRAM = philo_bonus
 

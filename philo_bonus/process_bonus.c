@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:37:40 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/19 16:39:25 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/20 01:40:31 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void    *death_checker(void *arg)
     long long   current_time;
 
     philo = (t_philo *)arg;
-    while (1)
+    while (1337)
     {
         sem_wait(philo->data->sem_death);
         current_time = gettime();
@@ -85,7 +85,7 @@ bool if_full(t_philo *philo)
     if (philo->data->meals != -1337)
     {
         sem_wait(philo->data->sem_meals);
-        if (philo->meals_eaten == philo->data->nbr_philo)
+        if (philo->data->full_philos == philo->data->nbr_philo)
         {
             sem_post(philo->data->sem_meals);
             sem_wait(philo->data->sem_death);
@@ -100,30 +100,23 @@ bool if_full(t_philo *philo)
 void ft_lifesycle(t_philo *philo)
 {
     pthread_t death_thread;
-
     pthread_create(&death_thread, NULL, death_checker, philo);
     pthread_detach(death_thread);
     while (1337)
     {
         if (is_dead(philo))
-            break ;
+            exit(1);
         sem_wait(philo->data->sem_forks);
         ft_write(philo, FORK);
         sem_wait(philo->data->sem_forks);
         ft_write(philo, FORK);
-        ft_write(philo, EAT);
-        ft_sleep(philo->data->time_eat, philo);
-        sem_wait(philo->data->sem_meals);
-        philo->last_meal_time = gettime();
-        if (philo->data->meals != -1337)
-            philo->meals_eaten++;
-        sem_post(philo->data->sem_meals);
+        ft_eat(philo);
         sem_post(philo->data->sem_forks);
         sem_post(philo->data->sem_forks);
         ft_write(philo, SLEEP);
         ft_sleep(philo->data->time_sleep, philo);
         ft_write(philo, THINK);
         if (if_full(philo))
-            break ;
+            exit(1);
     }
 }

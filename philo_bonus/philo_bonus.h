@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:40:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/19 16:26:30 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/20 00:42:09 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,6 @@ void ft_clean(t_data *data, int flag);
 void ft_lifesycle(t_philo *philo);
 void	ft_write(t_philo *philo, int flag);
 bool	is_dead(t_philo *philo);
+void ft_eat(t_philo *philo);
+void ft_sleep(long mls, t_philo *philo);
 #endif

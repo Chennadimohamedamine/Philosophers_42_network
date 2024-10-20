@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:06:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/16 16:53:47 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/20 20:44:02 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,36 @@ void	*ft_malloc(size_t size, bool is_free, int ml_failure, char *s)
 
 int	ft_mutex(t_mtx *mutex, int flag)
 {
+	int	status;
+
+	status = 0;
 	if (flag == INIT)
-		return (pthread_mutex_init(mutex, NULL));
+		status = pthread_mutex_init(mutex, NULL);
 	else if (flag == LOCK)
-		return (pthread_mutex_lock(mutex));
+		status = pthread_mutex_lock(mutex);
 	else if (flag == UNLOCK)
-		return (pthread_mutex_unlock(mutex));
+		status = pthread_mutex_unlock(mutex);
 	else if (flag == DESTORTY)
-		return (pthread_mutex_destroy(mutex));
-	return (1337);
+		status = pthread_mutex_destroy(mutex);
+	if (status != 0)
+		return (ft_cleanup(1), true);
+	return (0);
 }
 
 int	ft_thread(pthread_t *thead, void *(*fun)(void *), void *arg, int flag)
 {
+	int	status;
+
+	status = 0;
 	if (flag == CREATE)
-		return (pthread_create(thead, NULL, fun, arg));
+		status = pthread_create(thead, NULL, fun, arg);
 	else if (flag == JOIN)
-		return (pthread_join(*thead, NULL));
+		status = pthread_join(*thead, NULL);
 	else if (flag == DETACH)
-		return (pthread_detach(*thead));
-	return (1337);
+		status = pthread_detach(*thead);
+	if (status != 0)
+		return (ft_cleanup(2), 1);
+	return (0);
 }
 
 bool	valid_input(char *s)
