@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:37:40 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/22 15:47:46 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 23:44:27 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void ft_lifesycle(t_philo *philo)
         {
             sem_wait(philo->data->sem_death);
             philo->data->is_finish = true;
+            philo->data->end_similation = true;
             printf("%ld %d died\n", gettime() - philo->data->start_similation, philo->id);
             sem_post(philo->data->sem_death);
             sem_post(philo->data->sem_forks);
