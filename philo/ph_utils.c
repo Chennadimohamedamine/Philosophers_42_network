@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:42:33 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/20 20:27:09 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 01:40:47 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_write(t_philo *philo, int flag)
 {
 	long	time;
 
-	if (is_dead(philo) == true)
+	if (is_dead(philo)|| philo->is_finish)
 		return ;
 	ft_mutex(&philo->data->print, LOCK);
 	time = gettime() - philo->data->start_similation;
@@ -31,12 +31,21 @@ void	ft_write(t_philo *philo, int flag)
 	ft_mutex(&philo->data->print, UNLOCK);
 }
 
-void	ft_hold_forks(t_philo *philo)
+bool	ft_hold_forks(t_philo *philo)
 {
-	ft_mutex(philo->left_fork, LOCK);
+	if (ft_mutex(philo->left_fork, LOCK))
+		return (true);
 	ft_write(philo, FORK);
-	ft_mutex(philo->right_fork, LOCK);
+	if (philo->arg->nbr_philo == 1)
+	{
+		ft_mutex(philo->left_fork, UNLOCK);
+		philo->is_finish = true;
+		return (true);
+	}
+	if (ft_mutex(philo->right_fork, LOCK))
+		return (true);
 	ft_write(philo, FORK);
+	return (false);
 }
 
 void	ft_eat(t_philo *philo)
@@ -68,7 +77,7 @@ long	gettime(void)
 bool	is_dead(t_philo *philo)
 {
 	ft_mutex(&philo->data->stop_mtx, LOCK);
-	if (philo->data->end_similation == true)
+	if (philo->data->end_similation == true || philo->is_finish == true)
 	{
 		ft_mutex(&philo->data->stop_mtx, UNLOCK);
 		return (true);

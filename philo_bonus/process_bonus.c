@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:37:40 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/20 01:40:31 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:47:46 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void    *death_checker(void *arg)
         {
             printf("%lld %d died\n", current_time - philo->data->start_similation, philo->id);
             philo->data->end_similation = true;
+            sem_post(philo->data->sem_death);
             exit(1);
         }
         sem_post(philo->data->sem_death);
@@ -53,11 +54,11 @@ void ft_sleep(long mls, t_philo *philo)
 	while ((gettime() - start) < mls)
 	{
         sem_wait(philo->data->sem_death);
-		if (philo->data->end_similation)
-		{
+		if (philo->data->end_similation || philo->data->is_finish)
+        {
             sem_post(philo->data->sem_death);
-			return;
-		}
+            return;
+        }
         sem_post(philo->data->sem_death);
 		usleep(100);
 	}
@@ -104,10 +105,19 @@ void ft_lifesycle(t_philo *philo)
     pthread_detach(death_thread);
     while (1337)
     {
-        if (is_dead(philo))
+        if (is_dead(philo) || philo->data->is_finish)
             exit(1);
         sem_wait(philo->data->sem_forks);
         ft_write(philo, FORK);
+        if (philo->data->nbr_philo == 1)
+        {
+            sem_wait(philo->data->sem_death);
+            philo->data->is_finish = true;
+            printf("%ld %d died\n", gettime() - philo->data->start_similation, philo->id);
+            sem_post(philo->data->sem_death);
+            sem_post(philo->data->sem_forks);
+            exit(1);
+        }
         sem_wait(philo->data->sem_forks);
         ft_write(philo, FORK);
         ft_eat(philo);

@@ -6,58 +6,57 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/20 20:47:32 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:29:00 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-bool	ft_allocat_data(t_philo **philo, t_mtx **forks, t_share arg)
+bool ft_allocat_data(t_philo **philo, t_mtx **forks, t_share arg)
 {
-	if (arg.nbr_philo != 1)
-	{
-		(*forks) = (t_mtx *)ft_malloc(sizeof(t_mtx) * arg.nbr_philo,
-				false, 1337, NULL);
-		if (!(*forks))
-			return (true);
-		(*philo) = (t_philo *)ft_malloc(sizeof(t_philo) * arg.nbr_philo,
-				false, 1337, NULL);
-		if (!(*philo))
-			return (true);
-	}
+	(*forks) = (t_mtx *)ft_malloc(sizeof(t_mtx) * arg.nbr_philo,
+								  false, 1337, NULL);
+	if (!(*forks))
+		return (true);
+	(*philo) = (t_philo *)ft_malloc(sizeof(t_philo) * arg.nbr_philo,
+									false, 1337, NULL);
+	if (!(*philo))
+		return (true);
 	return (false);
 }
 
-bool	init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
+bool init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
 {
-	int	i;
+	int i;
 
-	if (arg->nbr_philo != 1)
+	if (ft_init_mutexs(data, arg, forks))
+		return (true);
+	i = -1;
+	data->end_similation = false;
+	data->start_similation = gettime();
+	data->full_philos = 0;
+	while (++i < arg->nbr_philo)
 	{
-		if (ft_init_mutexs(data, arg, forks))
-			return (true);
-		i = -1;
-		data->end_similation = false;
-		data->start_similation = gettime();
-		data->full_philos = 0;
-		while (++i < arg->nbr_philo)
-		{
-			philo[i].id = i + 1;
-			philo[i].data = data;
-			philo[i].arg = arg;
-			philo[i].is_dead = data;
-			philo[i].last_meals_time = gettime();
-			philo[i].meals_counter = 0;
-			philo[i].left_fork = &forks[i];
-			philo[i].right_fork = &forks[(i + 1) % arg->nbr_philo];
-		}
+		philo[i].id = i + 1;
+		philo[i].data = data;
+		philo[i].arg = arg;
+		philo[i].is_dead = data;
+		philo[i].last_meals_time = gettime();
+		philo[i].meals_counter = 0;
+		philo[i].left_fork = &forks[i];
+		philo[i].right_fork = &forks[(i + 1) % arg->nbr_philo];
+		philo[i].is_finish = false;
 	}
+
 	return (false);
 }
-
-void	*ft_lifesycle(void *arg)
+void leak()
 {
-	t_philo	*philo;
+	system("leaks philo");
+}
+void *ft_lifesycle(void *arg)
+{
+	t_philo *philo;
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
@@ -65,8 +64,9 @@ void	*ft_lifesycle(void *arg)
 	while (1337)
 	{
 		if (is_dead(philo))
-			break ;
-		ft_hold_forks(philo);
+			break;
+		if (ft_hold_forks(philo))
+			return (NULL);
 		ft_eat(philo);
 		if (ft_mutex(philo->left_fork, UNLOCK))
 			return (NULL);
@@ -75,47 +75,41 @@ void	*ft_lifesycle(void *arg)
 		ft_write(philo, SLEEP);
 		ft_sleep(philo->arg->time_sleep, philo);
 		ft_write(philo, THINK);
-		ft_sleep(100, philo);
 	}
 	return (NULL);
 }
 
 void	ft_run_thread(t_philo *philo, t_share *arg)
 {
-	int	i;
+	int i;
 
-	if (arg->nbr_philo == 1)
-	{
-		printf("%d %d has taken a fork\n", 0, 1);
-		printf("%d %d died\n", 0, 1);
-		return ;
-	}
-	i = -1;
 	if (ft_thread(&arg->monitor, ft_monitor, philo, CREATE))
-		return ;
+		return;
+	i = -1;
 	while (++i < arg->nbr_philo)
 	{
 		if (ft_thread(&philo[i].id_thread, ft_lifesycle, &philo[i], INIT))
 			return ;
 	}
 	if (ft_thread(&arg->monitor, NULL, NULL, JOIN))
-		return ;
+		return;
 	i = -1;
 	while (++i < arg->nbr_philo)
 	{
 		if (ft_thread(&philo[i].id_thread, NULL, NULL, JOIN))
 			return ;
 	}
-	ft_cleanup(0);
+	ft_cleanup(1337);
 }
 
 int	main(int ac, char **av)
 {
-	t_data	data;
-	t_philo	*philo;
-	t_mtx	*forks;
-	t_share	arg;
+	t_data data;
+	t_philo *philo;
+	t_mtx *forks;
+	t_share arg;
 
+	// atexit(leak);
 	if (!ft_check_data(ac, av, &arg))
 	{
 		if (arg.meals == 0)

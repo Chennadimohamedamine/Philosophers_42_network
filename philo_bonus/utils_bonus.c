@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:37:43 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/19 01:23:53 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:18:09 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ bool ft_init_data(t_data *arg, t_philo *philo)
     arg->end_similation = false;
     arg->ready_count = 0;
     arg->full_philos = 0;
+    arg->is_finish = false;
     if (!ft_init_semaphores(arg))
         return (ft_putstr_fd("Error: failed to create semaphores\n", 2), true);
     return (false);

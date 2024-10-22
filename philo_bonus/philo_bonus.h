@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:40:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/20 00:42:09 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 15:19:00 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_data
     int             full_philos;
     long            start_similation;
     long long       start_time;
+    bool            is_finish;
     sem_t           *sem_forks;
     sem_t           *sem_print;
     sem_t           *sem_meals;
@@ -90,4 +91,5 @@ void	ft_write(t_philo *philo, int flag);
 bool	is_dead(t_philo *philo);
 void ft_eat(t_philo *philo);
 void ft_sleep(long mls, t_philo *philo);
+
 #endif

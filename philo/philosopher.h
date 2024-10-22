@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/20 20:48:22 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 00:16:13 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_philo
 	long		last_meals_time;
 	bool		is_dead;
 	long long	start;
+	bool 		is_finish;
 	t_mtx		*left_fork;
 	t_mtx		*right_fork;
 	t_data		*data;
@@ -109,7 +110,7 @@ void	endsimilation(t_philo *philo);
 bool	if_eat_all_meals(t_philo *philo);
 bool	is_dead(t_philo *philo);
 void	ft_write(t_philo *philo, int flag);
-void	ft_hold_forks(t_philo *philo);
+bool	ft_hold_forks(t_philo *philo);
 void	ft_eat(t_philo *philo);
 void	*ft_monitor(void *arg);
 void	ft_safe_destroy_mutex(void *mtx, bool free);

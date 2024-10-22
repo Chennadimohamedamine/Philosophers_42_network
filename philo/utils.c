@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/20 20:45:37 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/22 01:41:50 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_sleep(long mls, t_philo *philo)
 	while ((gettime() - start) < mls)
 	{
 		ft_mutex(&philo->data->stop_mtx, LOCK);
-		if (philo->data->end_similation)
+		if (philo->data->end_similation || philo->is_finish)
 		{
 			ft_mutex(&philo->data->stop_mtx, UNLOCK);
 			return ;
@@ -92,7 +92,7 @@ void	*ft_monitor(void *arg)
 		{
 			ft_mutex(&philo[0].data->monitor, LOCK);
 			passtime = gettime() - philo[i].last_meals_time;
-			if (passtime > philo[i].arg->time_dead)
+			if (passtime > philo[i].arg->time_dead || philo[i].is_finish)
 			{
 				endsimilation(&philo[i]);
 				printf("%ld %d died\n", passtime, philo[i].id);
