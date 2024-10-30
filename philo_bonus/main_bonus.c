@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 00:37:35 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/22 15:28:47 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:30:04 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int main(int ac, char **av)
     t_data arg;
     t_philo *philo;
 
-    // atexit(leak);
     if (!ft_check_data(ac, av, &arg))
     {
         philo = (t_philo *)ft_malloc(sizeof(t_philo) * arg.nbr_philo, false, 1337, NULL);

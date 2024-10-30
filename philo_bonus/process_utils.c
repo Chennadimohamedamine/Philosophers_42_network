@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:23:30 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/22 23:48:15 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:33:17 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void ft_eat(t_philo *philo)
 {
+    if (is_dead(philo))
+        return ;
     ft_write(philo, EAT);
     ft_sleep(philo->data->time_eat, philo);
     sem_wait(philo->data->sem_meals);
