@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 17:11:55 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/22 01:41:50 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:09:31 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	*ft_monitor(void *arg)
 		{
 			ft_mutex(&philo[0].data->monitor, LOCK);
 			passtime = gettime() - philo[i].last_meals_time;
-			if (passtime > philo[i].arg->time_dead || philo[i].is_finish)
+			if (passtime > philo[i].arg->time_dead)
 			{
 				endsimilation(&philo[i]);
 				printf("%ld %d died\n", passtime, philo[i].id);

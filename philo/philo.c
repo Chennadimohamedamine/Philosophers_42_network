@@ -6,28 +6,28 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:28 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/22 15:29:00 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:11:26 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-bool ft_allocat_data(t_philo **philo, t_mtx **forks, t_share arg)
+bool	ft_allocat_data(t_philo **philo, t_mtx **forks, t_share arg)
 {
-	(*forks) = (t_mtx *)ft_malloc(sizeof(t_mtx) * arg.nbr_philo,
-								  false, 1337, NULL);
+	(*forks) = (t_mtx *)
+		ft_malloc(sizeof(t_mtx) * arg.nbr_philo, false, 1337, NULL);
 	if (!(*forks))
 		return (true);
-	(*philo) = (t_philo *)ft_malloc(sizeof(t_philo) * arg.nbr_philo,
-									false, 1337, NULL);
+	(*philo) = (t_philo *)
+		ft_malloc(sizeof(t_philo) * arg.nbr_philo, false, 1337, NULL);
 	if (!(*philo))
 		return (true);
 	return (false);
 }
 
-bool init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
+bool	init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
 {
-	int i;
+	int	i;
 
 	if (ft_init_mutexs(data, arg, forks))
 		return (true);
@@ -47,16 +47,12 @@ bool init_data(t_data *data, t_share *arg, t_philo *philo, t_mtx *forks)
 		philo[i].right_fork = &forks[(i + 1) % arg->nbr_philo];
 		philo[i].is_finish = false;
 	}
-
 	return (false);
 }
-void leak()
+
+void	*ft_lifesycle(void *arg)
 {
-	system("leaks philo");
-}
-void *ft_lifesycle(void *arg)
-{
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
@@ -64,7 +60,7 @@ void *ft_lifesycle(void *arg)
 	while (1337)
 	{
 		if (is_dead(philo))
-			break;
+			break ;
 		if (ft_hold_forks(philo))
 			return (NULL);
 		ft_eat(philo);
@@ -81,10 +77,10 @@ void *ft_lifesycle(void *arg)
 
 void	ft_run_thread(t_philo *philo, t_share *arg)
 {
-	int i;
+	int	i;
 
 	if (ft_thread(&arg->monitor, ft_monitor, philo, CREATE))
-		return;
+		return ;
 	i = -1;
 	while (++i < arg->nbr_philo)
 	{
@@ -92,7 +88,7 @@ void	ft_run_thread(t_philo *philo, t_share *arg)
 			return ;
 	}
 	if (ft_thread(&arg->monitor, NULL, NULL, JOIN))
-		return;
+		return ;
 	i = -1;
 	while (++i < arg->nbr_philo)
 	{
@@ -104,12 +100,11 @@ void	ft_run_thread(t_philo *philo, t_share *arg)
 
 int	main(int ac, char **av)
 {
-	t_data data;
-	t_philo *philo;
-	t_mtx *forks;
-	t_share arg;
+	t_data	data;
+	t_philo	*philo;
+	t_mtx	*forks;
+	t_share	arg;
 
-	// atexit(leak);
 	if (!ft_check_data(ac, av, &arg))
 	{
 		if (arg.meals == 0)

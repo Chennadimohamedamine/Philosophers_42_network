@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:03:21 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/22 00:16:13 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:11:35 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_philo
 	long		last_meals_time;
 	bool		is_dead;
 	long long	start;
-	bool 		is_finish;
+	bool		is_finish;
 	t_mtx		*left_fork;
 	t_mtx		*right_fork;
 	t_data		*data;

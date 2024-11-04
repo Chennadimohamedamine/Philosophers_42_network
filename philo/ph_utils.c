@@ -6,7 +6,7 @@
 /*   By: mochenna <mochenna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:42:33 by mochenna          #+#    #+#             */
-/*   Updated: 2024/10/22 01:40:47 by mochenna         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:11:49 by mochenna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_write(t_philo *philo, int flag)
 {
 	long	time;
 
-	if (is_dead(philo)|| philo->is_finish)
+	if (is_dead(philo) || philo->is_finish)
 		return ;
 	ft_mutex(&philo->data->print, LOCK);
 	time = gettime() - philo->data->start_similation;
